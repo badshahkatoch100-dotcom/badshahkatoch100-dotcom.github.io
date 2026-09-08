@@ -1,0 +1,570 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Deepak Yashwant Telang — Chef Portfolio Design System
+   Editorial luxury hospitality
+   Colors: deep burgundy, warm cream, champagne gold
+   Motion: fast 150-250ms · medium 300-500ms · large 600-900ms · hero 800-1200ms
+*/
+
+@layer base {
+  :root {
+    /* Core brand colors */
+    --burgundy: 348 40% 18%;
+    --burgundy-light: 348 35% 25%;
+    --cream: 40 30% 96%;
+    --cream-warm: 38 35% 92%;
+    --champagne: 38 55% 65%;
+    --champagne-light: 40 50% 75%;
+    
+    /* Semantic tokens */
+    --background: 40 30% 96%;
+    --foreground: 348 40% 18%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 348 40% 18%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 348 40% 18%;
+
+    --primary: 348 40% 18%;
+    --primary-foreground: 40 30% 96%;
+
+    --secondary: 38 35% 92%;
+    --secondary-foreground: 348 40% 18%;
+
+    --muted: 38 25% 90%;
+    --muted-foreground: 348 25% 40%;
+
+    --accent: 38 55% 65%;
+    --accent-foreground: 348 40% 18%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 38 30% 85%;
+    --input: 38 30% 85%;
+    --ring: 38 55% 65%;
+
+    --radius: 0.25rem;
+
+    /* Typography */
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans: 'Inter', system-ui, sans-serif;
+    
+    /* Shadows */
+    --shadow-subtle: 0 2px 20px -2px hsl(348 40% 18% / 0.08);
+    --shadow-elevated: 0 8px 40px -8px hsl(348 40% 18% / 0.12);
+    
+    /* Spacing */
+    --section-padding: clamp(4rem, 10vw, 8rem);
+
+    /* Motion tokens */
+    --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+    --dur-fast: 200ms;
+    --dur-medium: 400ms;
+    --dur-large: 750ms;
+    --dur-hero: 1000ms;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 348 40% 12%;
+    --foreground: 40 30% 96%;
+
+    --card: 348 38% 15%;
+    --card-foreground: 40 30% 96%;
+
+    --popover: 348 38% 15%;
+    --popover-foreground: 40 30% 96%;
+
+    --primary: 40 30% 96%;
+    --primary-foreground: 348 40% 18%;
+
+    --secondary: 348 35% 20%;
+    --secondary-foreground: 40 30% 96%;
+
+    --muted: 348 30% 22%;
+    --muted-foreground: 40 20% 70%;
+
+    --accent: 38 55% 65%;
+    --accent-foreground: 348 40% 12%;
+
+    --border: 348 30% 25%;
+    --input: 348 30% 25%;
+    --ring: 38 55% 65%;
+    
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  /* Fixed header offset for anchor navigation */
+  section[id],
+  div[id] {
+    scroll-margin-top: 5rem;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-sans);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    @apply font-medium tracking-tight;
+  }
+
+  ::selection {
+    background-color: hsl(var(--accent));
+    color: hsl(var(--burgundy));
+  }
+
+}
+
+@layer components {
+  /* ---- Buttons: one consistent system ---- */
+  .btn-base {
+    @apply inline-flex items-center justify-center gap-2
+           px-8 py-4 min-h-[3.25rem]
+           text-[0.8125rem] font-medium uppercase tracking-[0.14em]
+           transition-colors duration-300 ease-out
+           focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
+  }
+
+  /* Gold fill — primary action on dark surfaces */
+  .btn-gold {
+    @apply btn-base bg-champagne text-burgundy
+           hover:bg-champagne-light focus-visible:outline-champagne-light;
+  }
+
+  /* Outlined — secondary action on dark surfaces */
+  .btn-ghost-light {
+    @apply btn-base border border-cream-warm/40 text-cream-warm
+           hover:border-champagne hover:text-champagne
+           focus-visible:outline-champagne;
+  }
+
+  /* Solid burgundy — primary action on light surfaces */
+  .btn-primary {
+    @apply btn-base bg-primary text-primary-foreground
+           hover:bg-burgundy-light focus-visible:outline-burgundy-light;
+  }
+
+  /* Outlined — secondary action on light surfaces */
+  .btn-outline {
+    @apply btn-base border border-primary/30 text-primary
+           hover:bg-primary hover:text-primary-foreground
+           focus-visible:outline-primary;
+  }
+
+  /* Section containers */
+  .section-container {
+    @apply max-w-7xl mx-auto px-6 sm:px-8 lg:px-12;
+  }
+
+  .section-padding {
+    padding-top: var(--section-padding);
+    padding-bottom: var(--section-padding);
+  }
+
+  /* ---- Typography scale ---- */
+  .heading-display {
+    font-family: var(--font-serif);
+    @apply text-[2.75rem] leading-[1.05] sm:text-6xl lg:text-7xl
+           font-medium tracking-[-0.02em] text-balance;
+  }
+
+  .heading-section {
+    font-family: var(--font-serif);
+    @apply text-[1.875rem] leading-[1.15] sm:text-4xl lg:text-[2.75rem]
+           font-medium tracking-[-0.015em] text-balance;
+  }
+
+  .heading-subsection {
+    font-family: var(--font-serif);
+    @apply text-2xl md:text-[1.75rem] leading-snug font-medium tracking-[-0.01em];
+  }
+
+  .heading-card {
+    font-family: var(--font-serif);
+    @apply text-xl leading-snug font-medium tracking-[-0.01em];
+  }
+
+  .text-body {
+    @apply text-base md:text-[1.0625rem] leading-[1.75];
+  }
+
+  .text-small {
+    @apply text-sm leading-relaxed tracking-wide;
+  }
+
+  .label-uppercase {
+    @apply text-[0.6875rem] tracking-[0.22em] uppercase font-medium;
+  }
+
+  /* Decorative elements */
+  .gold-line {
+    @apply h-px w-16 bg-accent;
+  }
+
+  .gold-line-vertical {
+    @apply w-px h-16 bg-accent;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+
+/* ------------------------------------------------------------------ */
+/*  Print / PDF export                                                 */
+/* ------------------------------------------------------------------ */
+.print-only {
+  display: none;
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 16mm 14mm 22mm;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    width: 100%;
+    font-size: 10.5pt;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    /* Neutralise scroll-triggered motion so nothing exports invisible. */
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    animation: none !important;
+    transition: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    scroll-margin: 0 !important;
+  }
+
+  /* Interactive / chrome-only UI never prints. */
+  .no-print,
+  header.no-print,
+  nav[aria-label],
+  [data-sonner-toaster],
+  [role="tooltip"],
+  [data-radix-popper-content-wrapper],
+  .sr-only {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  /* Running document identity */
+  .print-masthead {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 12mm;
+    border-bottom: 1pt solid hsl(var(--accent));
+    padding-bottom: 4mm;
+    margin-bottom: 8mm;
+  }
+  .print-masthead-name {
+    font-family: var(--font-serif);
+    font-size: 20pt;
+    line-height: 1.1;
+    color: hsl(var(--foreground));
+  }
+  .print-masthead-role {
+    font-size: 8pt;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: hsl(var(--muted-foreground));
+    margin-top: 1mm;
+  }
+  .print-masthead-meta {
+    text-align: right;
+    font-size: 8.5pt;
+    line-height: 1.5;
+    color: hsl(var(--muted-foreground));
+  }
+
+  /* Repeats on every printed page in Chromium-based browsers. */
+  .print-runner {
+    display: flex !important;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: 7.5pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: hsl(var(--muted-foreground));
+    border-top: 0.5pt solid hsl(var(--border));
+    padding-top: 2mm;
+  }
+
+  main {
+    display: block;
+  }
+
+  /* Compact editorial rhythm for paper */
+  section {
+    padding-top: 8mm !important;
+    padding-bottom: 8mm !important;
+    min-height: 0 !important;
+    height: auto !important;
+    overflow: visible !important;
+    break-inside: auto;
+    page-break-inside: auto;
+    border-top: 0.5pt solid hsl(var(--border));
+  }
+  section:first-of-type {
+    border-top: 0;
+  }
+  section#home {
+    padding-top: 0 !important;
+  }
+
+  .section-container {
+    max-width: none !important;
+    width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* Dark sections invert to paper-friendly ink */
+  .bg-burgundy,
+  .bg-burgundy-light,
+  .bg-cream,
+  .bg-cream-warm,
+  .bg-background {
+    background: #fff !important;
+  }
+  .text-cream,
+  .text-cream-warm,
+  [class*="text-cream"] {
+    color: hsl(var(--foreground)) !important;
+  }
+  .text-champagne,
+  [class*="text-champagne"] {
+    color: hsl(38 60% 42%) !important;
+  }
+  [class*="border-champagne"] {
+    border-color: hsl(38 45% 60%) !important;
+  }
+  [class*="border-cream"] {
+    border-color: hsl(var(--border)) !important;
+  }
+
+  .heading-display {
+    font-size: 26pt !important;
+  }
+  .heading-section {
+    font-size: 17pt !important;
+  }
+  .heading-subsection {
+    font-size: 13pt !important;
+  }
+  .heading-card {
+    font-size: 11.5pt !important;
+  }
+  .text-body,
+  p,
+  li,
+  td,
+  th {
+    font-size: 10pt !important;
+    line-height: 1.5 !important;
+  }
+  .label-uppercase {
+    font-size: 7.5pt !important;
+  }
+
+  /* Intelligent pagination */
+  h1,
+  h2,
+  h3,
+  h4,
+  .heading-display,
+  .heading-section,
+  .heading-subsection,
+  .heading-card {
+    break-after: avoid-page;
+    page-break-after: avoid;
+    break-inside: avoid-page;
+    page-break-inside: avoid;
+  }
+  li,
+  tr,
+  blockquote,
+  figure,
+  img,
+  dl,
+  .card,
+  [class*="border"] > article {
+    break-inside: avoid-page;
+    page-break-inside: avoid;
+  }
+
+  /* Tables flow across pages with repeated headers */
+  table {
+    width: 100% !important;
+    table-layout: fixed;
+    border-collapse: collapse;
+    break-inside: auto;
+  }
+  thead {
+    display: table-header-group;
+  }
+  tfoot {
+    display: table-footer-group;
+  }
+  th,
+  td {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    padding: 2mm 3mm;
+    border-bottom: 0.5pt solid hsl(var(--border));
+    text-align: left;
+    vertical-align: top;
+  }
+
+  /* Grids collapse gracefully; nothing clipped horizontally */
+  [class*="grid-cols"] {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 6mm !important;
+  }
+  .overflow-hidden,
+  .overflow-x-auto,
+  .overflow-y-auto {
+    overflow: visible !important;
+  }
+  [class*="max-h-"] {
+    max-height: none !important;
+  }
+  .fixed,
+  .sticky {
+    position: static !important;
+  }
+  .print-runner {
+    position: fixed !important;
+  }
+
+  ul[class*="gap-px"],
+  div[class*="gap-px"] {
+    gap: 0 !important;
+    background: transparent !important;
+  }
+  ul[class*="gap-px"] > *,
+  div[class*="gap-px"] > * {
+    border: 0.5pt solid hsl(var(--border)) !important;
+    margin: -0.25pt 0 0 -0.25pt;
+  }
+
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+    break-inside: avoid;
+  }
+
+  a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+}
+
+@media print {
+  /* Decorative absolutely-positioned overlays (image reveals, gradients,
+     background plates) would otherwise paint solid blocks on paper. */
+  [aria-hidden="true"][class*="absolute"],
+  [aria-hidden="true"][class*="inset"] {
+    display: none !important;
+  }
+
+  /* Screen-only calls to action */
+  .btn-gold,
+  .btn-ghost-light,
+  .btn-outline,
+  .btn-primary,
+  a[href^="#"],
+  button {
+    display: none !important;
+  }
+
+  #home {
+    background: #fff !important;
+    padding-bottom: 6mm !important;
+  }
+  #home figure {
+    max-width: 52mm !important;
+    margin-left: auto !important;
+  }
+  #home img {
+    border: 0.5pt solid hsl(var(--border));
+  }
+  #home .heading-display {
+    font-size: 24pt !important;
+  }
+  #home dl [class*="text-cream"] {
+    color: hsl(var(--muted-foreground)) !important;
+  }
+}
+
+@media print {
+  /* Start the written CV on a fresh page after the cover block. */
+  #about {
+    break-before: page;
+  }
+}
